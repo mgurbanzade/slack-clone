@@ -14,7 +14,7 @@
     "build-server": "babel server --out-dir dist --source-maps inline",
     "build-app": "npx webpack -p --env production",
     "build": "npm run build-app && npm run build-server",
-    "postinstall": "npm run build"
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -23,9 +23,9 @@
   "author": "Mahram Gurbanzade",
   "license": "ISC",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/mgurbanzade/slack-clone/issues"
   },
-  "homepage": "",
+  "homepage": "https://slack-clone-1899.herokuapp.com",
   "dependencies": {
     "@babel/cli": "^7.2.0",
     "@babel/core": "^7.2.2",

@@ -17,6 +17,9 @@ check-types:
 	npx flow
 
 lint:
+	npx eslint .
+
+lint-fix:
 	npx eslint . --fix
 
 publish:
