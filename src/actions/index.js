@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions';
-import routes from '../routes';
 import axios from 'axios';
+import routes from '../routes';
 // export const switchChannel = createAction('CHANNELS_SWITCH');
 // export const fetchMessages = () => {};
 
@@ -11,13 +11,13 @@ import axios from 'axios';
 export const switchChannel = createAction('CHANNELS_SWITCH');
 export const receiveNewMessage = createAction('MESSAGES_RECEIVE');
 
-export const sendMessage = (message) => async (dispatch) => {
+export const sendMessage = message => async (dispatch) => {
   const url = routes.postMessageURL(message.channelId);
-  const attributes = {text: message.text};
+  const attributes = { text: message.text };
   const response = await axios.post(url, {
     data: {
-      attributes
-    }
+      attributes,
+    },
   });
 
   dispatch(receiveNewMessage({ message: response.data }));

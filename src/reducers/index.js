@@ -6,8 +6,8 @@ import * as actions from '../actions';
 const currentChannelId = handleActions({
   [actions.switchChannel](state, { payload: id }) {
     return { ...state, currentChannelId: id };
-  }
-}, {})
+  },
+}, {});
 
 const channels = handleActions({}, {});
 
