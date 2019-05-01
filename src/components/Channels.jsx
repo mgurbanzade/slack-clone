@@ -13,6 +13,6 @@ export default class Channels extends React.Component {
       return (<Channels.Item key={channel.id}>{channel.name}</Channels.Item>);
     });
 
-    return (<ul className="list-group col-3">{channelsList}</ul>)
+    return (<ul className="list-group col-3 pl-3">{channelsList}</ul>)
   }
 }
