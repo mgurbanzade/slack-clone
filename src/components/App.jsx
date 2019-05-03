@@ -59,10 +59,10 @@ export default (gon) => {
   class App extends React.Component {
     render() {
       return (
-        <div className="row">
+        <div className="row vh-100">
           <Provider store={store}>
             <Channels list={this.props.channels} />
-            <div className="col-9">
+            <div className="col-9 d-flex flex-column pt-2">
               <Messages />
               <MessageForm />
             </div>

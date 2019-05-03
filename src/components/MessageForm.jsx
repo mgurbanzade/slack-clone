@@ -37,7 +37,7 @@ class MessageForm extends React.Component {
     }
 
     return (
-      <form className="form-group">
+      <form className="form-group border-2">
         <HotKeys handlers={handlers} keyMap={keyMap}>
           <Field name="message" className="form-control" required component="textarea" />
         </HotKeys>

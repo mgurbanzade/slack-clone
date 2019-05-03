@@ -13,7 +13,7 @@ class Messages extends React.Component {
 
   renderEmptyChannel() {
     return (
-      <div className="jumbotron d-flex justify-content-center">
+      <div className="jumbotron d-flex justify-content-center" style={{flexGrow: 1}}>
         <h2 className="heading align-self-center text-muted">No messages to show</h2>
       </div>
     )
@@ -33,7 +33,7 @@ class Messages extends React.Component {
     });
 
     return (
-      <div>{messageItems}</div>
+      <div style={{ flexGrow: 1, maxHeight: '88vh', overflowY: 'scroll' }}>{messageItems}</div>
     )
   }
 }
