@@ -1,12 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../assets/application.css';
+import io from 'socket.io-client';
+import cookies from 'js-cookie';
+import faker from 'faker';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import reducers from '../reducers';
-import io from 'socket.io-client';
 import Channels from './Channels';
 import Messages from './Messages';
 import MessageForm from './MessageForm';
@@ -38,8 +40,13 @@ const store = createStore(
   compose(...middleware),
 );
 
-
 const socket = io.connect('/');
+
+socket.on('connect', (e) => {
+  if (!cookies.get('currentUser')) {
+    cookies.set('currentUser', faker.name.findName());
+  }
+})
 
 socket.on('newMessage', (message) => {
   store.dispatch(actions.receiveNewMessage({

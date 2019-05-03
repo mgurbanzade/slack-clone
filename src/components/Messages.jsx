@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
   const props = {
@@ -9,8 +8,6 @@ const mapStateToProps = (state) => {
 
   return props;
 };
-
-const actionCreators = {};
 
 class Messages extends React.Component {
 
@@ -29,7 +26,7 @@ class Messages extends React.Component {
     const messageItems = messages.map((message) => {
       return (
         <div key={message.id}>
-          <div className="font-weight-bold">User Name</div>
+          <div className="font-weight-bold">{message.author}</div>
           <p>{message.text}</p>
         </div>
       );
@@ -41,4 +38,4 @@ class Messages extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, actionCreators)(Messages)
+export default connect(mapStateToProps)(Messages)

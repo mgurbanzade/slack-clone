@@ -1,9 +1,10 @@
 import React from 'react';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
-import { connect, dispatch } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
+import { connect } from 'react-redux';
 import * as actions from '../actions';
 import { HotKeys } from "react-hotkeys";
 import _ from 'lodash';
+import cookies from 'js-cookie';
 
 const mapStateToProps = (state) => {
   return {
@@ -20,6 +21,7 @@ class MessageForm extends React.Component {
     const { sendMessage, reset, currentChannelId } = this.props;
     await sendMessage({
       channelId: currentChannelId,
+      author: cookies.get('currentUser'),
       text: message,
     });
     reset();
