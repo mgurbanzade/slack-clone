@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Item = ({ children }) => <li className="list-group-item">{children}</li>;
+const Item = ({ children }) => <li className="list-group-item text-light border-0" style={{ backgroundColor: '#3F0E40' }}>{children}</li>;
 
 export default class Channels extends React.Component {
   static Item = Item;
@@ -13,6 +13,6 @@ export default class Channels extends React.Component {
       return (<Channels.Item key={channel.id}>{channel.name}</Channels.Item>);
     });
 
-    return (<ul className="list-group col-3">{channelsList}</ul>)
+    return (<ul className="list-group col-3 pl-3 min-100" style={{backgroundColor: '#3F0E40'}}>{channelsList}</ul>)
   }
 }
