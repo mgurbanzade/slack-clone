@@ -41,7 +41,7 @@ export default class MessageForm extends React.Component {
     }
 
     const loading = (
-      <div id="spinnerContainer" className="spinner-container text-center d-none">
+      <div id="spinnerContainer" className="spinner-container text-center">
         <div className="spinner-grow text-primary" role="status">
           <span className="sr-only">Loading...</span>
         </div>
