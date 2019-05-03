@@ -1,5 +1,5 @@
-import App from './components/App';
 import gon from 'gon';
+import App from './components/App';
 
 App(gon);
 

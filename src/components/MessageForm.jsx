@@ -1,30 +1,34 @@
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
-import { connect } from 'react-redux';
-import * as actions from '../actions';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
+import connect from '../connect';
 import { HotKeys } from "react-hotkeys";
 import _ from 'lodash';
-import cookies from 'js-cookie';
+import { format } from 'date-fns';
 
-const mapStateToProps = (state) => {
-  return {
-    currentChannelId: state.currentChannelId,
-  };
-};
+const mapStateToProps = (state) => ({
+  currentChannelId: state.currentChannelId,
+})
 
-const actionCreators = {
-  sendMessage: actions.sendMessage,
-};
+@connect(mapStateToProps)
+@reduxForm({ form: 'messageForm' })
 
-class MessageForm extends React.Component {
+export default class MessageForm extends React.Component {
   handleSubmit = async ({ message }) => {
-    const { sendMessage, reset, currentChannelId } = this.props;
-    await sendMessage({
-      channelId: currentChannelId,
-      author: cookies.get('currentUser'),
-      text: message,
-    });
-    reset();
+    if (!message || message.trim().length === 0) return null;
+    const { sendMessage, reset, currentChannelId, currentUser } = this.props;
+
+    try {
+      await sendMessage({
+        channelId: currentChannelId,
+        author: currentUser,
+        text: message,
+        sentAt: format(new Date(), 'HH:mm')
+      });
+
+      reset();
+    } catch (e) {
+      throw new SubmissionError({ _error: e.message });
+    }
   }
 
   render() {
@@ -36,17 +40,30 @@ class MessageForm extends React.Component {
       'TRIGGER_SUBMIT': this.props.handleSubmit(this.handleSubmit)
     }
 
-    return (
-      <form className="form-group border-2">
+    const loading = (
+      <div id="spinnerContainer" className="spinner-container text-center d-none">
+        <div className="spinner-grow text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <div className="spinner-grow text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+        <div className="spinner-grow text-primary" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      </div>
+    );
+
+    const form = (
+      <form className="form-group">
         <HotKeys handlers={handlers} keyMap={keyMap}>
-          <Field name="message" className="form-control" required component="textarea" />
+          <Field name="message" className="form-control" required autoFocus component="textarea" />
         </HotKeys>
       </form>
     )
+
+    return (
+      this.props.submitting ? loading : form
+    )
   }
 }
-
-const ConnectedMessageForm = connect(mapStateToProps, actionCreators)(MessageForm);
-export default reduxForm({
-  form: 'messageForm',
-})(ConnectedMessageForm);

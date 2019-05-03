@@ -14,6 +14,10 @@ import Messages from './Messages';
 import MessageForm from './MessageForm';
 import * as actions from '../actions';
 
+if (!cookies.get('currentUser')) {
+  cookies.set('currentUser', faker.name.findName(), { expires: 1 });
+}
+
 const initializeState = (state) => {
   const { channels, messages, currentChannelId } = state;
   return {
@@ -42,21 +46,17 @@ const store = createStore(
 
 const socket = io.connect('/');
 
-socket.on('connect', (e) => {
-  if (!cookies.get('currentUser')) {
-    cookies.set('currentUser', faker.name.findName());
-  }
-})
-
 socket.on('newMessage', (message) => {
   store.dispatch(actions.receiveNewMessage({
     message,
   }))
 })
 
-
+const CurrentUserContext = React.createContext(cookies.get('currentUser'));
 export default (gon) => {
   class App extends React.Component {
+    static contextType = CurrentUserContext;
+
     render() {
       return (
         <div className="row vh-100">
@@ -64,7 +64,7 @@ export default (gon) => {
             <Channels list={this.props.channels} />
             <div className="col-9 d-flex flex-column pt-2">
               <Messages />
-              <MessageForm />
+              <MessageForm currentUser={this.context} />
             </div>
           </Provider>
         </div>
