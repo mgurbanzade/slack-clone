@@ -6,9 +6,11 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import reducers from '../reducers';
+import io from 'socket.io-client';
 import Channels from './Channels';
 import Messages from './Messages';
 import MessageForm from './MessageForm';
+import * as actions from '../actions';
 
 const initializeState = (state) => {
   const { channels, messages, currentChannelId } = state;
@@ -25,17 +27,25 @@ const initializeState = (state) => {
   };
 };
 
-const ext = window.__REDUX_DEVTOOLS_EXTENSION__;
-const devtoolMiddleware = ext && ext();
+const middleware = [
+  applyMiddleware(thunk),
+  ...(window.__REDUX_DEVTOOLS_EXTENSION__ ? [window.__REDUX_DEVTOOLS_EXTENSION__()] : [])
+];
 
 const store = createStore(
   reducers,
   initializeState(gon),
-  compose(
-    applyMiddleware(thunk),
-    devtoolMiddleware,
-  ),
+  compose(...middleware),
 );
+
+
+const socket = io.connect('/');
+
+socket.on('newMessage', (message) => {
+  store.dispatch(actions.receiveNewMessage({
+    message,
+  }))
+})
 
 
 export default (gon) => {
