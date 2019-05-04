@@ -52,6 +52,12 @@ socket.on('newMessage', (message) => {
   }))
 })
 
+socket.on('newChannel', (channel) => {
+  store.dispatch(actions.receiveNewChannel({
+    channel,
+  }))
+})
+
 const CurrentUserContext = React.createContext(cookies.get('currentUser'));
 export default (gon) => {
   class App extends React.Component {

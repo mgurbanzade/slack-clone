@@ -9,7 +9,15 @@ const currentChannelId = handleActions({
   },
 }, 1);
 
-const channels = handleActions({}, {});
+const channels = handleActions({
+  [actions.receiveNewChannel](state, { payload: { channel } }) {
+    const { id, attributes } = channel.data;
+    return {
+      byId: { ...state.byId, [id]: attributes },
+      allIds: [...state.allIds, id],
+    };
+  },
+}, []);
 
 const messages = handleActions({
   [actions.receiveNewMessage](state, { payload: { message } }) {

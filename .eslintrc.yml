@@ -1,9 +1,17 @@
 ---
 
+plugins:
+  - jest
+  - babel
+
 extends:
-  - airbnb
+  - "airbnb-base"
   - "plugin:jest/recommended"
   - "plugin:react/recommended"
+
+settings:
+  react:
+    version: 'latest'
 
 parser: babel-eslint
 

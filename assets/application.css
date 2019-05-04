@@ -28,6 +28,17 @@
   border: none;
 }
 
+.channel_input {
+  display: block;
+  width: 100%;
+  height: 26px;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid rgb(197,183,198);
+  color:rgb(197,183,198);
+  outline: none;
+}
+
 .heading {
   display: flex;
   justify-content: space-between;
