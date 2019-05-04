@@ -61,7 +61,7 @@ export default (gon) => {
       return (
         <div className="row vh-100">
           <Provider store={store}>
-            <Channels list={this.props.channels} />
+            <Channels />
             <div className="col-9 d-flex flex-column pt-2">
               <Messages />
               <MessageForm currentUser={this.context} />

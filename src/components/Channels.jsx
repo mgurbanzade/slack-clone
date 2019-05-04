@@ -1,18 +1,54 @@
 import React from 'react';
+import connect from '../connect';
+import cn from 'classnames';
+import { IoIosAddCircleOutline } from "react-icons/io";
 
-const Item = ({ children }) => <li className="list-group-item text-light border-0" style={{ backgroundColor: '#3F0E40' }}>{children}</li>;
+const mapStateToProps = state => ({
+  channels: Object.values(state.channels.byId),
+  currentChannelId: state.currentChannelId,
+})
+
+@connect(mapStateToProps)
 
 export default class Channels extends React.Component {
-  static Item = Item;
+  static Item = ({onClick, className, children}) => {
+    return (<div onClick={onClick} className={className}>{children}</div>)
+  }
+
+  switchChannel = (id) => () => this.props.switchChannel(id);
+
+  renderItems() {
+    const { channels, currentChannelId } = this.props;
+
+    return channels.map((channel) => {
+      const activeClass = cn('channel', {
+        active: channel.id === currentChannelId
+      });
+
+      return (
+        <Channels.Item
+          onClick={this.switchChannel(channel.id)}
+          className={activeClass}
+          key={channel.id}>
+          {channel.name}
+        </Channels.Item>);
+    });
+  }
 
   render() {
-    const { list } = this.props;
-    if (list.length === 0) return null;
+    const { channels } = this.props;
+    if (channels.length === 0) return null;
 
-    const channelsList = list.map((channel) => {
-      return (<Channels.Item key={channel.id}>{channel.name}</Channels.Item>);
-    });
-
-    return (<ul className="list-group col-3 pl-3 min-100" style={{backgroundColor: '#3F0E40'}}>{channelsList}</ul>)
+    return (
+      <div className="col-3 pt-3 min-100" style={{backgroundColor: '#3F0E40'}}>
+        <div className="heading">
+          <span>Channels</span>
+          <button className="channel_new">
+            <IoIosAddCircleOutline />
+          </button>
+        </div>
+        {this.renderItems()}
+      </div>
+    )
   }
 }

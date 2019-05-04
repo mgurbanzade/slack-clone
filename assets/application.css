@@ -1,3 +1,36 @@
 .fade.in {
   opacity: 1;
 }
+
+.channel {
+  cursor: pointer;
+  background-color: '#3F0E40';
+  height: 26px;
+  color: rgb(197,183,198);
+  margin: 0 -15px;
+  padding: 0 15px;
+  font-weight: 300;
+}
+
+.channel::before {
+  content: "#";
+  margin-right: 5px;
+}
+
+.channel.active {
+  background-color: #1164A3;
+  color: #fff;
+}
+
+.channel_new {
+  background-color: transparent;
+  color: rgb(197,183,198);
+  border: none;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  height: 26px;
+  color: rgb(197,183,198);
+}
