@@ -4,7 +4,6 @@
 
 .channel {
   cursor: pointer;
-  background-color: '#3F0E40';
   height: 26px;
   color: rgb(197,183,198);
   margin: 0 -15px;
@@ -22,7 +21,7 @@
   color: #fff;
 }
 
-.channel_new {
+.custom-button {
   background-color: transparent;
   color: rgb(197,183,198);
   border: none;
@@ -44,4 +43,25 @@
   justify-content: space-between;
   height: 26px;
   color: rgb(197,183,198);
+}
+
+.channel_header {
+  display: flex;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ccc;
+}
+
+.channel_header h1 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.channel_header .custom-button {
+  color: #000;
+  font-size: 20px;
+  margin-right: 10px;
 }

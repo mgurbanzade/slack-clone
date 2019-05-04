@@ -9,7 +9,8 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import reducers from '../reducers';
-import Channels from './Channels';
+import Channels from './channels/Channels';
+import ChannelHeader from './channels/ChannelHeader';
 import Messages from './Messages';
 import MessageForm from './MessageForm';
 import * as actions from '../actions';
@@ -58,6 +59,12 @@ socket.on('newChannel', (channel) => {
   }))
 })
 
+socket.on('removeChannel', (res) => {
+  store.dispatch(actions.deleteChannelFromStore({
+    id: res.data.id
+  }))
+})
+
 const CurrentUserContext = React.createContext(cookies.get('currentUser'));
 export default (gon) => {
   class App extends React.Component {
@@ -68,7 +75,8 @@ export default (gon) => {
         <div className="row vh-100">
           <Provider store={store}>
             <Channels />
-            <div className="col-9 d-flex flex-column pt-2">
+            <div className="col-9 d-flex flex-column">
+              <ChannelHeader />
               <Messages />
               <MessageForm currentUser={this.context} />
             </div>

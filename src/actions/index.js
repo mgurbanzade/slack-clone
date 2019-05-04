@@ -5,6 +5,7 @@ import routes from '../routes';
 export const switchChannel = createAction('CHANNELS_SWITCH');
 export const receiveNewMessage = createAction('MESSAGES_RECEIVE');
 export const receiveNewChannel = createAction('CHANNELS_RECEIVE');
+export const deleteChannelFromStore = createAction('CHANNELS_DELETE');
 
 export const sendMessage = message => async (dispatch) => {
   const url = routes.postMessageURL(message.channelId);
@@ -28,4 +29,11 @@ export const createChannel = channel => async (dispatch) => {
   });
 
   dispatch(receiveNewChannel({ channel: response.data }));
+};
+
+export const deleteChannel = ({ id }) => async (dispatch) => {
+  const url = routes.deleteChannelURL(id);
+  await axios.delete(url);
+
+  dispatch(deleteChannelFromStore({ id }));
 };

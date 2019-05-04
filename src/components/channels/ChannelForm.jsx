@@ -1,5 +1,5 @@
 import React from 'react';
-import connect from '../connect';
+import connect from '../../connect';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { HotKeys } from 'react-hotkeys';
 
