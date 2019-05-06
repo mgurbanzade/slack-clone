@@ -4,4 +4,5 @@ export default {
   postMessageURL: channelId => `${apiVersionPrefix}/channels/${channelId}/messages`,
   postChannelURL: `${apiVersionPrefix}/channels`,
   deleteChannelURL: channelId => `${apiVersionPrefix}/channels/${channelId}`,
+  renameChannelURL: channelId => `${apiVersionPrefix}/channels/${channelId}`,
 };

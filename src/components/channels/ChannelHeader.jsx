@@ -9,19 +9,19 @@ const mapStateToProps = (state) => ({
 @connect(mapStateToProps)
 
 export default class ChannelHeader extends React.Component {
-  deleteChannel = async () => {
-    const { channel, deleteChannel } = this.props;
-    await deleteChannel({id: channel.id});
-  }
+  showDeleteModal = () => this.props.showDeleteChannelModal();
+  showRenameModal = () => this.props.showRenameChannelModal();
 
   render() {
-    const { name, removable } = this.props.channel;
+    const { channel } = this.props;
+    const { name, removable } = channel;
+
     return (
       <div className="channel_header">
         <h1>{`#${name}`}</h1>
         <div className="row">
-          <button className="custom-button"><FaPen /></button>
-          {removable ? <button className="custom-button" onClick={this.deleteChannel}><FaTrashAlt /></button> : null}
+          <button className="custom-button" onClick={this.showRenameModal}><FaPen /></button>
+          {removable ? <button className="custom-button" onClick={this.showDeleteModal}><FaTrashAlt /></button> : null}
         </div>
       </div>
     )

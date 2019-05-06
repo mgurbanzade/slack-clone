@@ -28,6 +28,17 @@ const channels = handleActions({
       allIds: allIds.filter(cid => cid !== id),
     };
   },
+  [actions.renameChannelAtStore](state, { payload: channel }) {
+    const { id, name } = channel;
+    const { byId, allIds } = state;
+    const updatedChannel = { ...byId[id], name };
+    byId[id] = updatedChannel;
+
+    return {
+      byId,
+      allIds,
+    };
+  },
 }, []);
 
 const messages = handleActions({
@@ -40,9 +51,37 @@ const messages = handleActions({
   },
 }, []);
 
+const modals = handleActions({
+  [actions.showDeleteChannelModal](state) {
+    return {
+      ...state,
+      deleteChannelModalIsVisible: true,
+    };
+  },
+  [actions.showRenameChannelModal](state) {
+    return {
+      ...state,
+      renameChannelModalIsVisible: true,
+    };
+  },
+  [actions.hideDeleteChannelModal](state) {
+    return {
+      ...state,
+      deleteChannelModalIsVisible: false,
+    };
+  },
+  [actions.hideRenameChannelModal](state) {
+    return {
+      ...state,
+      renameChannelModalIsVisible: false,
+    };
+  },
+}, false);
+
 export default combineReducers({
   channels,
   messages,
   currentChannelId,
+  modals,
   form: formReducer,
 });

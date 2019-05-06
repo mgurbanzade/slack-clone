@@ -11,8 +11,10 @@ import thunk from 'redux-thunk';
 import reducers from '../reducers';
 import Channels from './channels/Channels';
 import ChannelHeader from './channels/ChannelHeader';
-import Messages from './Messages';
-import MessageForm from './MessageForm';
+import Messages from './messages/Messages';
+import MessageForm from './messages/MessageForm';
+import DeleteChannelModal from './modals/DeleteChannelModal';
+import RenameChannelModal from './modals/RenameChannelModal';
 import * as actions from '../actions';
 
 if (!cookies.get('currentUser')) {
@@ -31,6 +33,10 @@ const initializeState = (state) => {
       allIds: messages.map(message => message.id),
     },
     currentChannelId,
+    modals: {
+      deleteChannelModalIsVisible: false,
+      renameChannelModalIsVisible: false,
+    }
   };
 };
 
@@ -65,6 +71,12 @@ socket.on('removeChannel', (res) => {
   }))
 })
 
+socket.on('renameChannel', (res) => {
+  store.dispatch(actions.renameChannelAtStore({
+    ...res.data.attributes,
+  }))
+})
+
 const CurrentUserContext = React.createContext(cookies.get('currentUser'));
 export default (gon) => {
   class App extends React.Component {
@@ -79,6 +91,8 @@ export default (gon) => {
               <ChannelHeader />
               <Messages />
               <MessageForm currentUser={this.context} />
+              <DeleteChannelModal />
+              <RenameChannelModal />
             </div>
           </Provider>
         </div>

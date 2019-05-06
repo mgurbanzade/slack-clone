@@ -1,6 +1,6 @@
 import React from 'react';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
-import connect from '../connect';
+import connect from '../../connect';
 import { HotKeys } from "react-hotkeys";
 import _ from 'lodash';
 import { format } from 'date-fns';
