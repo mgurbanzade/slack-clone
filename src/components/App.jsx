@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../assets/application.css';
+import '../../assets/application.scss';
+import '../../favicon.ico';
 import io from 'socket.io-client';
 import cookies from 'js-cookie';
 import faker from 'faker';
@@ -16,6 +17,7 @@ import MessageForm from './messages/MessageForm';
 import DeleteChannelModal from './modals/DeleteChannelModal';
 import RenameChannelModal from './modals/RenameChannelModal';
 import * as actions from '../actions';
+import { Row, Col } from 'react-bootstrap';
 
 if (!cookies.get('currentUser')) {
   cookies.set('currentUser', faker.name.findName(), { expires: 1 });
@@ -84,18 +86,18 @@ export default (gon) => {
 
     render() {
       return (
-        <div className="row vh-100">
+        <Row className="vh-100">
           <Provider store={store}>
             <Channels />
-            <div className="col-9 d-flex flex-column">
+            <Col xs={9} className="d-flex flex-column">
               <ChannelHeader />
               <Messages />
               <MessageForm currentUser={this.context} />
               <DeleteChannelModal />
               <RenameChannelModal />
-            </div>
+            </Col>
           </Provider>
-        </div>
+        </Row>
       );
     }
   }

@@ -24,6 +24,29 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(scss)$/,
+        use: [{
+          loader: 'style-loader',
+        }, {
+          loader: 'css-loader',
+        }, {
+          loader: 'postcss-loader',
+          options: {
+            plugins() {
+              return [
+                require('autoprefixer'),
+              ];
+            },
+          },
+        }, {
+          loader: 'sass-loader',
+        }],
+      },
+      {
+        test: /\.ico$/,
+        loader: 'file-loader?name=[name].[ext]',
+      },
     ],
   },
 };

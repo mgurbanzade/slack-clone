@@ -1,5 +1,5 @@
 import React from 'react';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import connect from '../../connect';
 import { HotKeys } from "react-hotkeys";
 import _ from 'lodash';
@@ -16,19 +16,14 @@ export default class MessageForm extends React.Component {
   handleSubmit = async ({ message }) => {
     if (!message || message.trim().length === 0) return null;
     const { sendMessage, reset, currentChannelId, currentUser } = this.props;
+    await sendMessage({
+      channelId: currentChannelId,
+      author: currentUser,
+      text: message,
+      sentAt: format(new Date(), 'HH:mm')
+    });
 
-    try {
-      await sendMessage({
-        channelId: currentChannelId,
-        author: currentUser,
-        text: message,
-        sentAt: format(new Date(), 'HH:mm')
-      });
-
-      reset();
-    } catch (e) {
-      throw new SubmissionError({ _error: e.message });
-    }
+    reset();
   }
 
   render() {

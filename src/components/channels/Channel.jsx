@@ -9,18 +9,15 @@ const mapStateToProps = (state) => ({
 @connect(mapStateToProps)
 
 export default class Channel extends React.Component {
-  state = {
-    actionsAreVisible: false
-  }
-
   switchChannel = (id) => () => this.props.switchChannel(id);
 
   render() {
     const { channel, currentChannelId } = this.props;
     const { name, id } = channel;
 
-    const activeClass = cn('channel', {
-      active: id === currentChannelId
+    const activeClass = cn('channel font-weight-light', {
+      active: id === currentChannelId,
+      'text-light': id === currentChannelId,
     });
 
     return (

@@ -26,3 +26,4 @@ rules:
   react/prop-types: 0
   no-console: 0
   react/jsx-filename-extension: 0
+  global-require: 0

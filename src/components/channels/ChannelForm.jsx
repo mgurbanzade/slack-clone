@@ -1,32 +1,25 @@
 import React from 'react';
 import connect from '../../connect';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { HotKeys } from 'react-hotkeys';
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = () => ({});
 
 @connect(mapStateToProps)
 @reduxForm({ form: 'channelForm' })
 
 export default class ChannelForm extends React.Component {
-  handleSubmit = async ({ channel }) => {
-    if (!channel || channel.trim().length === 0) return null;
+  handleSubmit = async ({ name }) => {
+    if (!name || name.trim().length === 0) return null;
     const { createChannel, reset, hideForm } = this.props;
-
-    try {
-      await createChannel({
-        name: channel
-      });
-
-      reset();
-      hideForm();
-    } catch (e) {
-      throw new SubmissionError({ _error: e.message });
-    }
+    await createChannel({ name });
+    reset();
+    hideForm();
   }
 
   render() {
     if (!this.props.isVisible) return null;
+
     const keyMap = {
       TRIGGER_SUBMIT: "enter",
     };
@@ -44,7 +37,7 @@ export default class ChannelForm extends React.Component {
     const form = (
       <form>
         <HotKeys handlers={handlers} keyMap={keyMap}>
-          <Field className="channel_input" name="channel" type="text" component="input" required autoFocus />
+          <Field className="d-block bg-transparent border-0 ml-auto channel_input" name="name" type="text" component="input" required autoFocus />
         </HotKeys>
       </form>
     )

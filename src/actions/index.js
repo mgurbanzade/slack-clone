@@ -13,9 +13,9 @@ export const switchChannel = createAction('CHANNELS_SWITCH');
 export const receiveNewChannel = createAction('CHANNELS_RECEIVE');
 export const deleteChannelFromStore = createAction('CHANNELS_DELETE');
 export const renameChannelAtStore = createAction('CHANNELS_RENAME');
-export const createChannel = channel => async (dispatch) => {
+export const createChannel = ({ name }) => async (dispatch) => {
   const url = routes.postChannelURL;
-  const attributes = { name: channel.name };
+  const attributes = { name };
   const response = await axios.post(url, {
     data: {
       attributes,

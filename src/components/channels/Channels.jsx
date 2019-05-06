@@ -3,6 +3,7 @@ import connect from '../../connect';
 import { IoIosAddCircleOutline } from "react-icons/io";
 import ChannelForm from './ChannelForm';
 import Channel from './Channel';
+import { Col, Button } from 'react-bootstrap';
 
 const mapStateToProps = state => ({
   channels: Object.values(state.channels.byId),
@@ -38,16 +39,16 @@ export default class Channels extends React.Component {
     if (channels.length === 0) return null;
 
     return (
-      <div onClick={this.handleClick} className="col-3 pt-3 min-100" style={{backgroundColor: '#3F0E40'}}>
-        <div className="heading">
+      <Col xs={3} onClick={this.handleClick} className="pt-3 min-100 channels">
+        <div className="channels_title align-items-center">
           <span>Channels</span>
-          <button onClick={this.showChannelForm} className="custom-button">
+          <Button onClick={this.showChannelForm} className="bg-transparent border-0 channels_add-btn">
             <IoIosAddCircleOutline />
-          </button>
+          </Button>
         </div>
         {this.renderItems()}
         <ChannelForm hideForm={this.hideChannelForm}  isVisible={this.state.formIsVisible} />
-      </div>
+      </Col>
     )
   }
 }

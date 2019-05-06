@@ -1,0 +1,70 @@
+$channelTextColor: rgb(197,183,198);
+
+.channels {
+  background-color: #3F0E40;
+
+  &_title {
+    display: flex;
+    justify-content: space-between;
+    height: 26px;
+    margin-bottom: 5px;
+  }
+
+  &_title,
+  &_add-btn {
+   color: $channelTextColor;
+  }
+}
+
+.channel {
+  cursor: pointer;
+  height: 26px;
+  color: $channelTextColor;
+  padding: 0 15px;
+
+  &::before {
+    content: "#";
+    margin-right: 5px;
+  }
+
+  &.active {
+    background-color: #1164A3;
+  }
+
+  &_input {
+    width: calc(100% - 15px);
+    height: 26px;
+    border-bottom: 1px solid $channelTextColor !important;
+    color: $channelTextColor;
+    outline: none;
+  }
+
+  &_header {
+    height: 50px;
+    margin-bottom: 15px;
+  }
+
+  &_title {
+    font-size: 18px;
+  }
+
+  &_action-btn {
+    font-size: 20px;
+    margin-right: 10px;
+    outline: none;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
+
+.spinner-border {
+  .channels & {
+    margin-left: 15px;
+  }
+}
+
+.fade.in {
+  opacity: 1;
+}
