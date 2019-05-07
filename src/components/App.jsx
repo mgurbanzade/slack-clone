@@ -30,6 +30,9 @@ const initializeState = (state) => {
       byId: channels.reduce((acc, channel) => ({ ...acc, [channel.id]: channel }), {}),
       allIds: channels.map(channel => channel.id),
     },
+    channelsUI: {
+      channelsIdsWithNewMessages: [],
+    },
     messages: {
       byId: messages.reduce((acc, message) => ({ ...acc, [message.id]: message }), {}),
       allIds: messages.map(message => message.id),
@@ -58,6 +61,10 @@ const socket = io.connect('/');
 socket.on('newMessage', (message) => {
   store.dispatch(actions.receiveNewMessage({
     message,
+  }))
+
+  store.dispatch(actions.newMessageAlert({
+    id: message.data.attributes.channelId
   }))
 })
 

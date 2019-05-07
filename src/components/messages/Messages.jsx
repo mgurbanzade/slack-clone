@@ -24,7 +24,7 @@ export default class Messages extends React.Component {
 
   renderEmptyChannel() {
     return (
-      <div className="jumbotron d-flex justify-content-center" style={{flexGrow: 1}}>
+      <div className="jumbotron d-flex justify-content-center flex-grow-1">
         <h2 className="heading align-self-center text-muted">No messages to show</h2>
       </div>
     )
@@ -32,11 +32,6 @@ export default class Messages extends React.Component {
 
   render() {
     const { messages } = this.props;
-    const customStyles = {
-      flexGrow: 1,
-      maxHeight: '88vh',
-      overflowY: 'scroll'
-    };
 
     if (messages.length === 0) return (this.renderEmptyChannel());
     const messageItems = messages.map((message) => {
@@ -52,7 +47,7 @@ export default class Messages extends React.Component {
     });
 
     return (
-      <div ref={this.wrapperRef} style={customStyles}>
+      <div ref={this.wrapperRef} className="flex-grow-1 messages">
         {messageItems}
         <div ref={this.focusArea}></div>
       </div>

@@ -41,6 +41,31 @@ const channels = handleActions({
   },
 }, []);
 
+const channelsUI = handleActions({
+  [actions.newMessageAlert](state, { payload: { id } }) {
+    const oldIds = state.channelsIdsWithNewMessages;
+    const updatedIds = oldIds.includes(id) ? oldIds : [...oldIds, id];
+    return {
+      channelsIdsWithNewMessages: updatedIds,
+    };
+  },
+  [actions.markMessageAsRead](state, { payload: id }) {
+    const oldIds = state.channelsIdsWithNewMessages;
+    const updatedIds = oldIds.filter(ID => ID !== id);
+
+    return {
+      channelsIdsWithNewMessages: updatedIds,
+    };
+  },
+  [actions.switchChannel](state, { payload: id }) {
+    const oldIds = state.channelsIdsWithNewMessages;
+    const updatedIds = oldIds.filter(ID => ID !== id);
+    return {
+      channelsIdsWithNewMessages: updatedIds,
+    };
+  },
+}, []);
+
 const messages = handleActions({
   [actions.receiveNewMessage](state, { payload: { message } }) {
     const { id, attributes } = message.data;
@@ -80,6 +105,7 @@ const modals = handleActions({
 
 export default combineReducers({
   channels,
+  channelsUI,
   messages,
   currentChannelId,
   modals,

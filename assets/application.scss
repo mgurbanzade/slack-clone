@@ -1,7 +1,8 @@
 $channelTextColor: rgb(197,183,198);
+$slackPurple: #3F0E40;
 
 .channels {
-  background-color: #3F0E40;
+  background-color: $slackPurple;
 
   &_title {
     display: flex;
@@ -59,10 +60,30 @@ $channelTextColor: rgb(197,183,198);
   }
 }
 
+.messages {
+  overflow-y: scroll;
+
+  @media screen and (max-height: 950px) {
+    max-height: 84.5vh;
+  }
+
+  @media screen and (max-height: 850px) {
+    max-height: 82vh;
+  }
+
+  @media screen and (max-height: 750px) {
+    max-height: 79vh;
+  }
+}
+
 .spinner-border {
   .channels & {
     margin-left: 15px;
   }
+}
+
+.spinner-grow {
+  color: $slackPurple;
 }
 
 .fade.in {

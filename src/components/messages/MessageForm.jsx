@@ -37,13 +37,13 @@ export default class MessageForm extends React.Component {
 
     const loading = (
       <div id="spinnerContainer" className="spinner-container text-center">
-        <div className="spinner-grow" role="status" style={{ color: '#3F0E40'}}>
+        <div className="spinner-grow" role="status">
           <span className="sr-only">Loading...</span>
         </div>
-        <div className="spinner-grow" role="status" style={{ color: '#3F0E40' }}>
+        <div className="spinner-grow" role="status">
           <span className="sr-only">Loading...</span>
         </div>
-        <div className="spinner-grow" role="status" style={{ color: '#3F0E40' }}>
+        <div className="spinner-grow" role="status">
           <span className="sr-only">Loading...</span>
         </div>
       </div>

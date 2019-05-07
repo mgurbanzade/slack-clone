@@ -43,6 +43,10 @@ export const renameChannel = channel => async (dispatch) => {
   dispatch(renameChannelAtStore(channel));
 };
 
+// channels UI
+export const newMessageAlert = createAction('CHANNELS_UI_NEW_MESSAGE_ALERT');
+export const markMessageAsRead = createAction('CHANNELS_UI_MARK_MESSAGE_AS_READ');
+
 // messages
 export const receiveNewMessage = createAction('MESSAGES_RECEIVE');
 export const sendMessage = message => async (dispatch) => {
