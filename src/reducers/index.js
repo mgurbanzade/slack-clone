@@ -74,6 +74,15 @@ const messages = handleActions({
       allIds: [...state.allIds, id],
     };
   },
+  [actions.deleteChannelFromStore](state, { payload: { id } }) {
+    const { byId } = state;
+    const updatedById = _.omitBy(byId, m => m.channelId === id);
+
+    return {
+      byId: updatedById,
+      allIds: Object.values(updatedById).map(m => m.id),
+    };
+  },
 }, []);
 
 const modals = handleActions({
