@@ -5,8 +5,8 @@ const mapStateToProps = (state) => {
   const messagesList = Object.values(state.messages.byId);
   return {
     messages: messagesList.filter(m => m.channelId === state.currentChannelId),
-  }
-}
+  };
+};
 
 @connect(mapStateToProps)
 
@@ -17,25 +17,24 @@ export default class Messages extends React.Component {
     this.scrollToBottom();
   }
 
-  scrollToBottom = () => {
+  scrollToBottom = () => { // eslint-disable-line consistent-return
     if (!this.focusArea.current) return null;
     this.focusArea.current.scrollIntoView({ behavior: 'smooth' });
   }
 
-  renderEmptyChannel() {
+  renderEmptyChannel() { // eslint-disable-line class-methods-use-this
     return (
       <div className="jumbotron d-flex justify-content-center flex-grow-1">
         <h2 className="heading align-self-center text-muted">No messages to show</h2>
       </div>
-    )
+    );
   }
 
   render() {
     const { messages } = this.props;
 
     if (messages.length === 0) return (this.renderEmptyChannel());
-    const messageItems = messages.map((message) => {
-      return (
+    const messageItems = messages.map(message => (
         <div key={message.id}>
           <div>
             <span className="font-weight-bold mr-2">{message.author}</span>
@@ -43,14 +42,13 @@ export default class Messages extends React.Component {
           </div>
           <p>{message.text}</p>
         </div>
-      );
-    });
+    ));
 
     return (
       <div ref={this.wrapperRef} className="flex-grow-1 messages">
         {messageItems}
         <div ref={this.focusArea}></div>
       </div>
-    )
+    );
   }
 }

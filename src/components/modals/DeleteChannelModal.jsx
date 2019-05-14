@@ -1,11 +1,11 @@
 import React from 'react';
-import connect from '../../connect';
 import { Modal, Button } from 'react-bootstrap';
+import connect from '../../connect';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   show: state.modals.deleteChannelModalIsVisible,
   channel: state.channels.byId[state.currentChannelId],
-})
+});
 
 @connect(mapStateToProps)
 
@@ -34,6 +34,6 @@ export default class DeleteChannelModal extends React.Component {
           <Button variant="danger" onClick={this.deleteChannel}>Delete</Button>
         </Modal.Footer>
       </Modal>
-    )
+    );
   }
 }

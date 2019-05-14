@@ -1,16 +1,17 @@
 import React from 'react';
-import connect from '../../connect';
 import { FaPen, FaTrashAlt } from 'react-icons/fa';
 import { Row, Button } from 'react-bootstrap';
+import connect from '../../connect';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   channel: state.channels.byId[state.currentChannelId],
-})
+});
 
 @connect(mapStateToProps)
 
 export default class ChannelHeader extends React.Component {
   showDeleteModal = () => this.props.showDeleteChannelModal();
+
   showRenameModal = () => this.props.showRenameChannelModal();
 
   render() {
@@ -25,6 +26,6 @@ export default class ChannelHeader extends React.Component {
           {removable ? <Button className="text-dark border-0 bg-transparent channel_action-btn" onClick={this.showDeleteModal}><FaTrashAlt /></Button> : null}
         </Row>
       </div>
-    )
+    );
   }
 }

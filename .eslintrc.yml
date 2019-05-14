@@ -3,6 +3,7 @@
 plugins:
   - jest
   - babel
+  - react
 
 extends:
   - "airbnb-base"
@@ -14,6 +15,10 @@ settings:
     version: 'latest'
 
 parser: babel-eslint
+
+parserOptions:
+  ecmaFeatures:
+    legacyDecorators: true
 
 env:
   browser: true
@@ -27,3 +32,4 @@ rules:
   no-console: 0
   react/jsx-filename-extension: 0
   global-require: 0
+  no-underscore-dangle: 0

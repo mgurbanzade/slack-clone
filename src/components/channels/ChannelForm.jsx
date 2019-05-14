@@ -1,7 +1,7 @@
 import React from 'react';
-import connect from '../../connect';
 import { reduxForm, Field } from 'redux-form';
 import { HotKeys } from 'react-hotkeys';
+import connect from '../../connect';
 
 const mapStateToProps = () => ({});
 
@@ -9,7 +9,7 @@ const mapStateToProps = () => ({});
 @reduxForm({ form: 'channelForm' })
 
 export default class ChannelForm extends React.Component {
-  handleSubmit = async ({ name }) => {
+  handleSubmit = async ({ name }) => { // eslint-disable-line consistent-return
     if (!name || name.trim().length === 0) return null;
     const { createChannel, reset, hideForm } = this.props;
     await createChannel({ name });
@@ -21,18 +21,18 @@ export default class ChannelForm extends React.Component {
     if (!this.props.isVisible) return null;
 
     const keyMap = {
-      TRIGGER_SUBMIT: "enter",
+      TRIGGER_SUBMIT: 'enter',
     };
 
     const handlers = {
-      'TRIGGER_SUBMIT': this.props.handleSubmit(this.handleSubmit)
+      TRIGGER_SUBMIT: this.props.handleSubmit(this.handleSubmit),
     };
 
     const spinner = (
       <div className="spinner-border spinner-border-sm text-light" role="status">
         <span className="sr-only">Loading...</span>
       </div>
-    )
+    );
 
     const form = (
       <form>
@@ -40,10 +40,10 @@ export default class ChannelForm extends React.Component {
           <Field className="d-block bg-transparent border-0 ml-auto channel_input" name="name" type="text" component="input" required autoFocus />
         </HotKeys>
       </form>
-    )
+    );
 
     return (
       this.props.submitting ? spinner : form
-    )
+    );
   }
 }

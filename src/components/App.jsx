@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../assets/application.scss';
 import '../../favicon.ico';
 import io from 'socket.io-client';
+import gon from 'gon';
 import cookies from 'js-cookie';
 import faker from 'faker';
 import React from 'react';
@@ -9,6 +10,7 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { Row, Col } from 'react-bootstrap';
 import reducers from '../reducers';
 import Channels from './channels/Channels';
 import ChannelHeader from './channels/ChannelHeader';
@@ -17,7 +19,6 @@ import MessageForm from './messages/MessageForm';
 import DeleteChannelModal from './modals/DeleteChannelModal';
 import RenameChannelModal from './modals/RenameChannelModal';
 import * as actions from '../actions';
-import { Row, Col } from 'react-bootstrap';
 
 if (!cookies.get('currentUser')) {
   cookies.set('currentUser', faker.name.findName(), { expires: 1 });
@@ -41,13 +42,13 @@ const initializeState = (state) => {
     modals: {
       deleteChannelModalIsVisible: false,
       renameChannelModalIsVisible: false,
-    }
+    },
   };
 };
 
 const middleware = [
   applyMiddleware(thunk),
-  ...(window.__REDUX_DEVTOOLS_EXTENSION__ ? [window.__REDUX_DEVTOOLS_EXTENSION__()] : [])
+  ...(window.__REDUX_DEVTOOLS_EXTENSION__ ? [window.__REDUX_DEVTOOLS_EXTENSION__()] : []),
 ];
 
 const store = createStore(
@@ -61,33 +62,33 @@ const socket = io.connect('/');
 socket.on('newMessage', (message) => {
   store.dispatch(actions.receiveNewMessage({
     message,
-  }))
+  }));
 
   store.dispatch(actions.newMessageAlert({
-    id: message.data.attributes.channelId
-  }))
-})
+    id: message.data.attributes.channelId,
+  }));
+});
 
 socket.on('newChannel', (channel) => {
   store.dispatch(actions.receiveNewChannel({
     channel,
-  }))
-})
+  }));
+});
 
 socket.on('removeChannel', (res) => {
   store.dispatch(actions.deleteChannelFromStore({
-    id: res.data.id
-  }))
-})
+    id: res.data.id,
+  }));
+});
 
 socket.on('renameChannel', (res) => {
   store.dispatch(actions.renameChannelAtStore({
     ...res.data.attributes,
-  }))
-})
+  }));
+});
 
 const CurrentUserContext = React.createContext(cookies.get('currentUser'));
-export default (gon) => {
+export default (gonObject) => {
   class App extends React.Component {
     static contextType = CurrentUserContext;
 
@@ -109,5 +110,5 @@ export default (gon) => {
     }
   }
 
-  return ReactDOM.render(<App channels={gon.channels} />, document.getElementById('chat'));
-}
+  ReactDOM.render(<App channels={gonObject.channels} />, document.getElementById('chat'));
+};
