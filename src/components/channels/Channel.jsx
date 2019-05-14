@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import connect from '../../connect';
+import connect from '../../decorators/connect';
 
 const mapStateToProps = state => ({
   currentChannelId: state.currentChannelId,

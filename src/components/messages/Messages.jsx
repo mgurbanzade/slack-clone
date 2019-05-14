@@ -1,5 +1,5 @@
 import React from 'react';
-import connect from '../../connect';
+import connect from '../../decorators/connect';
 
 const mapStateToProps = (state) => {
   const messagesList = Object.values(state.messages.byId);

@@ -2,7 +2,8 @@ import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { HotKeys } from 'react-hotkeys';
 import { format } from 'date-fns';
-import connect from '../../connect';
+import connect from '../../decorators/connect';
+import CurrentUserContext from '../../utils/context';
 
 const mapStateToProps = state => ({
   currentChannelId: state.currentChannelId,
@@ -12,14 +13,17 @@ const mapStateToProps = state => ({
 @reduxForm({ form: 'messageForm' })
 
 export default class MessageForm extends React.Component {
+  static contextType = CurrentUserContext;
+
   handleSubmit = async ({ message }) => { // eslint-disable-line consistent-return
     if (!message || message.trim().length === 0) return null;
     const {
-      sendMessage, reset, currentChannelId, currentUser,
+      sendMessage, reset, currentChannelId,
     } = this.props;
+
     await sendMessage({
       channelId: currentChannelId,
-      author: currentUser,
+      author: this.context,
       text: message,
       sentAt: format(new Date(), 'HH:mm'),
     });

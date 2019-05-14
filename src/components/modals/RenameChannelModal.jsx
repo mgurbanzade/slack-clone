@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { reduxForm, Field } from 'redux-form';
 import { HotKeys } from 'react-hotkeys';
-import connect from '../../connect';
+import connect from '../../decorators/connect';
 
 const mapStateToProps = state => ({
   show: state.modals.renameChannelModalIsVisible,

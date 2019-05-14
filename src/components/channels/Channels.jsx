@@ -1,7 +1,7 @@
 import React from 'react';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import { Col, Button } from 'react-bootstrap';
-import connect from '../../connect';
+import connect from '../../decorators/connect';
 import ChannelForm from './ChannelForm';
 import Channel from './Channel';
 

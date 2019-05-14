@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaPen, FaTrashAlt } from 'react-icons/fa';
 import { Row, Button } from 'react-bootstrap';
-import connect from '../../connect';
+import connect from '../../decorators/connect';
 
 const mapStateToProps = state => ({
   channel: state.channels.byId[state.currentChannelId],

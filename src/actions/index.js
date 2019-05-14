@@ -1,6 +1,6 @@
 import { createAction } from 'redux-actions';
 import axios from 'axios';
-import routes from '../routes';
+import routes from '../utils/routes';
 
 // modals
 export const showDeleteChannelModal = createAction('MODALS_DELETE_SHOW');
