@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../assets/application.scss';
 import '../../favicon.ico';
+import _ from 'lodash';
 import io from 'socket.io-client';
 import gon from 'gon';
 import cookies from 'js-cookie';
@@ -28,14 +29,14 @@ const initializeState = (state) => {
   const { channels, messages, currentChannelId } = state;
   return {
     channels: {
-      byId: channels.reduce((acc, channel) => ({ ...acc, [channel.id]: channel }), {}),
+      byId: _.keyBy(channels, 'id'),
       allIds: channels.map(channel => channel.id),
     },
     channelsUI: {
       channelsIdsWithNewMessages: [],
     },
     messages: {
-      byId: messages.reduce((acc, message) => ({ ...acc, [message.id]: message }), {}),
+      byId: _.keyBy(messages, 'id'),
       allIds: messages.map(message => message.id),
     },
     currentChannelId,
