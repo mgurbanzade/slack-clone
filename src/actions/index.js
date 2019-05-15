@@ -16,31 +16,44 @@ export const renameChannelAtStore = createAction('CHANNELS_RENAME');
 export const createChannel = ({ name }) => async (dispatch) => {
   const url = routes.postChannelURL;
   const attributes = { name };
-  const response = await axios.post(url, {
-    data: {
-      attributes,
-    },
-  });
+  try {
+    const response = await axios.post(url, {
+      data: {
+        attributes,
+      },
+    });
 
-  dispatch(receiveNewChannel({ channel: response.data }));
+    dispatch(receiveNewChannel({ channel: response.data }));
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export const deleteChannel = ({ id }) => async (dispatch) => {
   const url = routes.deleteChannelURL(id);
-  await axios.delete(url);
+  try {
+    await axios.delete(url);
+    dispatch(deleteChannelFromStore({ id }));
+  } catch (error) {
+    throw new Error(error);
+  }
 
-  dispatch(deleteChannelFromStore({ id }));
 };
 
 export const renameChannel = channel => async (dispatch) => {
   const url = routes.renameChannelURL(channel.id);
-  await axios.patch(url, {
-    data: {
-      attributes: channel,
-    },
-  });
 
-  dispatch(renameChannelAtStore(channel));
+  try {
+    await axios.patch(url, {
+      data: {
+        attributes: channel,
+      },
+    });
+
+    dispatch(renameChannelAtStore(channel));
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 // channels UI
@@ -52,11 +65,15 @@ export const receiveNewMessage = createAction('MESSAGES_RECEIVE');
 export const sendMessage = message => async (dispatch) => {
   const url = routes.postMessageURL(message.channelId);
   const attributes = { text: message.text, author: message.author, sentAt: message.sentAt };
-  const response = await axios.post(url, {
-    data: {
-      attributes,
-    },
-  });
+  try {
+    const response = await axios.post(url, {
+      data: {
+        attributes,
+      },
+    });
 
-  dispatch(receiveNewMessage({ message: response.data }));
+    dispatch(receiveNewMessage({ message: response.data }));
+  } catch (error) {
+    throw new Error(error);
+  }
 };
