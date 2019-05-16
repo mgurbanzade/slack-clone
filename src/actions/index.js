@@ -9,7 +9,9 @@ export const hideChannelActionsModal = createAction('MODALS_HIDE');
 // channels
 export const switchChannel = createAction('CHANNELS_SWITCH');
 export const receiveNewChannel = createAction('CHANNELS_RECEIVE');
-export const deleteChannelFromStore = createAction('CHANNELS_DELETE');
+export const deleteChannelRequest = createAction('CHANNELS_DELETE_REQUEST');
+export const deleteChannelSuccess = createAction('CHANNELS_DELETE_SUCCESS');
+export const deleteChannelFailure = createAction('CHANNELS_DELETE_FAILURE');
 export const renameChannelAtStore = createAction('CHANNELS_RENAME');
 export const createChannel = ({ name }) => async (dispatch) => {
   const url = routes.postChannelURL;
@@ -29,11 +31,13 @@ export const createChannel = ({ name }) => async (dispatch) => {
 
 export const deleteChannel = ({ id }) => async (dispatch) => {
   const url = routes.deleteChannelURL(id);
+  dispatch(deleteChannelRequest());
   try {
     await axios.delete(url);
-    dispatch(deleteChannelFromStore({ id }));
+    dispatch(deleteChannelSuccess({ id }));
   } catch (error) {
-    throw new Error(error);
+    dispatch(deleteChannelFailure());
+    throw error;
   }
 };
 

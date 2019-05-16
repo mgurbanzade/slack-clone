@@ -8,7 +8,7 @@ const currentChannelId = handleActions({
   [actions.switchChannel](state, { payload: id }) {
     return id;
   },
-  [actions.deleteChannelFromStore]() {
+  [actions.deleteChannelSuccess]() {
     return 1;
   },
 }, 1);
@@ -21,7 +21,7 @@ const channels = handleActions({
       allIds: [...state.allIds, id],
     };
   },
-  [actions.deleteChannelFromStore](state, { payload: { id } }) {
+  [actions.deleteChannelSuccess](state, { payload: { id } }) {
     const { byId, allIds } = state;
     return {
       byId: _.omit(byId, [id]),
@@ -40,6 +40,18 @@ const channels = handleActions({
     };
   },
 }, []);
+
+const channelDeletingState = handleActions({
+  [actions.deleteChannelRequest]() {
+    return 'requested';
+  },
+  [actions.deleteChannelFailure]() {
+    return 'failed';
+  },
+  [actions.deleteChannelSuccess]() {
+    return 'finished';
+  },
+}, 'none');
 
 const channelsUI = handleActions({
   [actions.newMessageAlert](state, { payload: { id } }) {
@@ -74,7 +86,7 @@ const messages = handleActions({
       allIds: [...state.allIds, id],
     };
   },
-  [actions.deleteChannelFromStore](state, { payload: { id } }) {
+  [actions.deleteChannelSuccess](state, { payload: { id } }) {
     const { byId } = state;
     const updatedById = _.omitBy(byId, m => m.channelId === id);
 
@@ -108,6 +120,7 @@ const modals = handleActions({
 
 export default combineReducers({
   channels,
+  channelDeletingState,
   channelsUI,
   messages,
   currentChannelId,

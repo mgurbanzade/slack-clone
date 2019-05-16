@@ -7,6 +7,7 @@ const initializeState = (state) => {
       byId: _.keyBy(channels, 'id'),
       allIds: channels.map(channel => channel.id),
     },
+    channelDeletingState: 'none',
     channelsUI: {
       channelsIdsWithNewMessages: [],
     },

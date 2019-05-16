@@ -7,13 +7,18 @@ import connect from '../../decorators/connect';
 
 const mapStateToProps = state => ({
   channelActions: state.modals.channelActions,
+  channelDeletingState: state.channelDeletingState,
 });
 
 @connect(mapStateToProps)
 
 export default class ChannelActionsModal extends React.Component {
   render() {
-    const { isVisible, closeModalHandler, actionData } = this.props.channelActions;
+    const {
+      channelDeletingState,
+      channelActions: { isVisible, closeModalHandler, actionData },
+    } = this.props;
+
     if (!actionData) return null;
     const {
       type, title, btnTheme, actionHandler,
@@ -21,17 +26,25 @@ export default class ChannelActionsModal extends React.Component {
     const actionTitle = _.capitalize(actionData.type);
 
     const modalBodyDispatcher = {
-      delete: (<DeleteChannelModal />),
+      delete: (<DeleteChannelModal requestState={channelDeletingState} />),
       rename: (<RenameChannelModal />),
     };
 
+    const spinner = (
+      <>
+        <div className="spinner-border spinner-border-sm text-light" role="status"></div>
+        <span className="sr-only">Loading...</span>
+      </>
+    );
+
     const modalFooterDispatcher = {
       delete: (
-        <Modal.Footer>
-          <Button variant={btnTheme} onClick={actionHandler}>
-            {actionTitle}
-          </Button>
-        </Modal.Footer>
+        channelDeletingState === 'failed' ? null
+          : <Modal.Footer>
+            <Button variant={btnTheme} onClick={actionHandler}>
+              {channelDeletingState === 'requested' ? spinner : actionTitle}
+            </Button>
+          </Modal.Footer>
       ),
       rename: null,
     };

@@ -21,7 +21,7 @@ export default (store) => {
   });
 
   socket.on('removeChannel', (res) => {
-    store.dispatch(actions.deleteChannelFromStore({
+    store.dispatch(actions.deleteChannelSuccess({
       id: res.data.id,
     }));
   });
