@@ -14,7 +14,7 @@ const currentChannelId = handleActions({
 }, 1);
 
 const channels = handleActions({
-  [actions.receiveNewChannel](state, { payload: { channel } }) {
+  [actions.createChannelSuccess](state, { payload: { channel } }) {
     const { id, attributes } = channel.data;
     return {
       byId: { ...state.byId, [id]: attributes },
@@ -41,10 +41,16 @@ const channels = handleActions({
   },
 }, []);
 
-const channelDeletingState = handleActions({
-  [actions.deleteChannelRequest]() {
-    return 'requested';
+const channelCreatingState = handleActions({
+  [actions.createChannelFailure]() {
+    return 'failed';
   },
+  [actions.createChannelSuccess]() {
+    return 'finished';
+  },
+}, 'none');
+
+const channelDeletingState = handleActions({
   [actions.deleteChannelFailure]() {
     return 'failed';
   },
@@ -129,6 +135,7 @@ const modals = handleActions({
 
 export default combineReducers({
   channels,
+  channelCreatingState,
   channelDeletingState,
   channelRenamingState,
   channelsUI,

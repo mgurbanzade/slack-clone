@@ -1,9 +1,12 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { HotKeys } from 'react-hotkeys';
+import { IoIosAlert } from 'react-icons/io';
 import connect from '../../decorators/connect';
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  channelCreatingState: state.channelCreatingState,
+});
 
 @connect(mapStateToProps)
 @reduxForm({ form: 'channelForm' })
@@ -18,19 +21,29 @@ export default class ChannelForm extends React.Component {
   }
 
   render() {
-    if (!this.props.isVisible) return null;
+    const {
+      isVisible, handleSubmit, submitting, channelCreatingState,
+    } = this.props;
+    if (!isVisible) return null;
 
     const keyMap = {
       TRIGGER_SUBMIT: 'enter',
     };
 
     const handlers = {
-      TRIGGER_SUBMIT: this.props.handleSubmit(this.handleSubmit),
+      TRIGGER_SUBMIT: handleSubmit(this.handleSubmit),
     };
 
     const spinner = (
       <div className="spinner-border spinner-border-sm text-light" role="status">
         <span className="sr-only">Loading...</span>
+      </div>
+    );
+
+    const failure = (
+      <div className="text-danger pl-3">
+        <IoIosAlert />
+        <span className="text-danger pl-1">Try again!</span>
       </div>
     );
 
@@ -43,7 +56,7 @@ export default class ChannelForm extends React.Component {
     );
 
     return (
-      this.props.submitting ? spinner : form
+      submitting ? spinner : channelCreatingState === 'failed' ? failure : form
     );
   }
 }

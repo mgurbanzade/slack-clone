@@ -33,3 +33,4 @@ rules:
   react/jsx-filename-extension: 0
   global-require: 0
   no-underscore-dangle: 0
+  no-nested-ternary: 0

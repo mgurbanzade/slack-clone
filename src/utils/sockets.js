@@ -15,7 +15,7 @@ export default (store) => {
   });
 
   socket.on('newChannel', (channel) => {
-    store.dispatch(actions.receiveNewChannel({
+    store.dispatch(actions.createChannelSuccess({
       channel,
     }));
   });
