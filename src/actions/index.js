@@ -1,12 +1,10 @@
 import { createAction } from 'redux-actions';
 import axios from 'axios';
-import routes from '../routes';
+import routes from '../utils/routes';
 
 // modals
-export const showDeleteChannelModal = createAction('MODALS_DELETE_SHOW');
-export const hideDeleteChannelModal = createAction('MODALS_DELETE_HIDE');
-export const showRenameChannelModal = createAction('MODALS_RENAME_SHOW');
-export const hideRenameChannelModal = createAction('MODALS_RENAME_HIDE');
+export const showChannelActionsModal = createAction('MODALS_SHOW');
+export const hideChannelActionsModal = createAction('MODALS_HIDE');
 
 // channels
 export const switchChannel = createAction('CHANNELS_SWITCH');
@@ -16,31 +14,43 @@ export const renameChannelAtStore = createAction('CHANNELS_RENAME');
 export const createChannel = ({ name }) => async (dispatch) => {
   const url = routes.postChannelURL;
   const attributes = { name };
-  const response = await axios.post(url, {
-    data: {
-      attributes,
-    },
-  });
+  try {
+    const response = await axios.post(url, {
+      data: {
+        attributes,
+      },
+    });
 
-  dispatch(receiveNewChannel({ channel: response.data }));
+    dispatch(receiveNewChannel({ channel: response.data }));
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export const deleteChannel = ({ id }) => async (dispatch) => {
   const url = routes.deleteChannelURL(id);
-  await axios.delete(url);
-
-  dispatch(deleteChannelFromStore({ id }));
+  try {
+    await axios.delete(url);
+    dispatch(deleteChannelFromStore({ id }));
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 export const renameChannel = channel => async (dispatch) => {
   const url = routes.renameChannelURL(channel.id);
-  await axios.patch(url, {
-    data: {
-      attributes: channel,
-    },
-  });
 
-  dispatch(renameChannelAtStore(channel));
+  try {
+    await axios.patch(url, {
+      data: {
+        attributes: channel,
+      },
+    });
+
+    dispatch(renameChannelAtStore(channel));
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 // channels UI
@@ -52,11 +62,15 @@ export const receiveNewMessage = createAction('MESSAGES_RECEIVE');
 export const sendMessage = message => async (dispatch) => {
   const url = routes.postMessageURL(message.channelId);
   const attributes = { text: message.text, author: message.author, sentAt: message.sentAt };
-  const response = await axios.post(url, {
-    data: {
-      attributes,
-    },
-  });
+  try {
+    const response = await axios.post(url, {
+      data: {
+        attributes,
+      },
+    });
 
-  dispatch(receiveNewMessage({ message: response.data }));
+    dispatch(receiveNewMessage({ message: response.data }));
+  } catch (error) {
+    throw new Error(error);
+  }
 };

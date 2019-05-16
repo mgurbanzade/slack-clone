@@ -1,16 +1,16 @@
 import React from 'react';
 import cn from 'classnames';
-import connect from '../../connect';
+import connect from '../../decorators/connect';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentChannelId: state.currentChannelId,
   idsWithNewMessages: state.channelsUI.channelsIdsWithNewMessages,
-})
+});
 
 @connect(mapStateToProps)
 
 export default class Channel extends React.Component {
-  switchChannel = (id) => () => {
+  switchChannel = id => () => {
     const { currentChannelId, markMessageAsRead, switchChannel } = this.props;
     markMessageAsRead(currentChannelId);
     switchChannel(id);
@@ -27,6 +27,6 @@ export default class Channel extends React.Component {
 
     return (
       <div onClick={this.switchChannel(id)} className={activeClass}>{name}</div>
-    )
+    );
   }
 }

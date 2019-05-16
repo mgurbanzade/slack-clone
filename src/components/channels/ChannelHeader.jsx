@@ -1,17 +1,55 @@
 import React from 'react';
-import connect from '../../connect';
 import { FaPen, FaTrashAlt } from 'react-icons/fa';
 import { Row, Button } from 'react-bootstrap';
+import connect from '../../decorators/connect';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   channel: state.channels.byId[state.currentChannelId],
-})
+});
 
 @connect(mapStateToProps)
 
 export default class ChannelHeader extends React.Component {
-  showDeleteModal = () => this.props.showDeleteChannelModal();
-  showRenameModal = () => this.props.showRenameChannelModal();
+  showDeleteModal = () => {
+    const {
+      channel, showChannelActionsModal, hideChannelActionsModal, deleteChannel,
+    } = this.props;
+
+    showChannelActionsModal({
+      isVisible: true,
+      closeModalHandler: hideChannelActionsModal,
+      actionData: {
+        type: 'delete',
+        title: `Delete channel: #${channel.name}`,
+        btnTheme: 'danger',
+        actionHandler: async () => {
+          await deleteChannel({ id: channel.id });
+          hideChannelActionsModal();
+        },
+      },
+    });
+  }
+
+  showRenameModal = () => {
+    const {
+      channel, showChannelActionsModal, hideChannelActionsModal, renameChannel,
+    } = this.props;
+
+    showChannelActionsModal({
+      isVisible: true,
+      closeModalHandler: hideChannelActionsModal,
+      actionData: {
+        type: 'rename',
+        title: `Rename channel: #${channel.name}`,
+        btnTheme: 'primary',
+        actionHandler: async ({ name }) => { // eslint-disable-line consistent-return
+          if (!name || name.trim().length === 0) return null;
+          await renameChannel({ ...channel, name });
+          hideChannelActionsModal();
+        },
+      },
+    });
+  }
 
   render() {
     const { channel } = this.props;
@@ -25,6 +63,6 @@ export default class ChannelHeader extends React.Component {
           {removable ? <Button className="text-dark border-0 bg-transparent channel_action-btn" onClick={this.showDeleteModal}><FaTrashAlt /></Button> : null}
         </Row>
       </div>
-    )
+    );
   }
 }

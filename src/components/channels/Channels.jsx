@@ -1,37 +1,37 @@
 import React from 'react';
-import connect from '../../connect';
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosAddCircleOutline } from 'react-icons/io';
+import { Col, Button } from 'react-bootstrap';
+import connect from '../../decorators/connect';
 import ChannelForm from './ChannelForm';
 import Channel from './Channel';
-import { Col, Button } from 'react-bootstrap';
 
 const mapStateToProps = state => ({
   channels: Object.values(state.channels.byId),
-})
+});
 
 @connect(mapStateToProps)
 
 export default class Channels extends React.Component {
   state = {
-    formIsVisible: false
+    formIsVisible: false,
   }
 
   showChannelForm = () => this.setState({ formIsVisible: true })
+
   hideChannelForm = () => this.setState({ formIsVisible: false });
+
   handleClick = (e) => {
     if (e.target.nodeName !== 'INPUT' && this.state.formIsVisible) {
-      this.hideChannelForm()
+      this.hideChannelForm();
     }
   }
 
   renderItems() {
     const { channels } = this.props;
 
-    return channels.map((channel) => {
-      return (
+    return channels.map(channel => (
         <Channel key={channel.id} channel={channel} />
-      );
-    });
+    ));
   }
 
   render() {
@@ -47,8 +47,8 @@ export default class Channels extends React.Component {
           </Button>
         </div>
         {this.renderItems()}
-        <ChannelForm hideForm={this.hideChannelForm}  isVisible={this.state.formIsVisible} />
+        <ChannelForm hideForm={this.hideChannelForm} isVisible={this.state.formIsVisible} />
       </Col>
-    )
+    );
   }
 }

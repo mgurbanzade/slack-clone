@@ -1,26 +1,31 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import connect from '../../connect';
-import { HotKeys } from "react-hotkeys";
-import _ from 'lodash';
+import { HotKeys } from 'react-hotkeys';
 import { format } from 'date-fns';
+import connect from '../../decorators/connect';
+import CurrentUserContext from '../../utils/context';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   currentChannelId: state.currentChannelId,
-})
+});
 
 @connect(mapStateToProps)
 @reduxForm({ form: 'messageForm' })
 
 export default class MessageForm extends React.Component {
-  handleSubmit = async ({ message }) => {
+  static contextType = CurrentUserContext;
+
+  handleSubmit = async ({ message }) => { // eslint-disable-line consistent-return
     if (!message || message.trim().length === 0) return null;
-    const { sendMessage, reset, currentChannelId, currentUser } = this.props;
+    const {
+      sendMessage, reset, currentChannelId,
+    } = this.props;
+
     await sendMessage({
       channelId: currentChannelId,
-      author: currentUser,
+      author: this.context,
       text: message,
-      sentAt: format(new Date(), 'HH:mm')
+      sentAt: format(new Date(), 'HH:mm'),
     });
 
     reset();
@@ -28,12 +33,12 @@ export default class MessageForm extends React.Component {
 
   render() {
     const keyMap = {
-      TRIGGER_SUBMIT: "enter",
+      TRIGGER_SUBMIT: 'enter',
     };
 
     const handlers = {
-      'TRIGGER_SUBMIT': this.props.handleSubmit(this.handleSubmit)
-    }
+      TRIGGER_SUBMIT: this.props.handleSubmit(this.handleSubmit),
+    };
 
     const loading = (
       <div id="spinnerContainer" className="spinner-container text-center">
@@ -55,10 +60,10 @@ export default class MessageForm extends React.Component {
           <Field name="message" className="form-control" required autoFocus component="textarea" />
         </HotKeys>
       </form>
-    )
+    );
 
     return (
       this.props.submitting ? loading : form
-    )
+    );
   }
 }
