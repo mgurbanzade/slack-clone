@@ -7,8 +7,7 @@ import Channels from './channels/Channels';
 import ChannelHeader from './channels/ChannelHeader';
 import Messages from './messages/Messages';
 import MessageForm from './messages/MessageForm';
-import DeleteChannelModal from './modals/DeleteChannelModal';
-import RenameChannelModal from './modals/RenameChannelModal';
+import ChannelActionsModal from './modals/ChannelActionsModal';
 
 const App = () => (
   <Row className="vh-100">
@@ -17,8 +16,7 @@ const App = () => (
       <ChannelHeader />
       <Messages />
       <MessageForm />
-      <DeleteChannelModal />
-      <RenameChannelModal />
+      <ChannelActionsModal />
     </Col>
   </Row>
 );

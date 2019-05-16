@@ -10,7 +10,7 @@ import reducers from './reducers';
 import App from './components/App';
 import runSockets from './utils/sockets';
 import CurrentUserContext from './utils/context';
-import initializeState from './utils/initialState';
+import initializeState from './utils/initializeState';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';

@@ -86,31 +86,25 @@ const messages = handleActions({
 }, []);
 
 const modals = handleActions({
-  [actions.showDeleteChannelModal](state) {
+  [actions.showChannelActionsModal](state, { payload }) {
     return {
       ...state,
-      deleteChannelModalIsVisible: true,
+      channelActions: payload,
     };
   },
-  [actions.showRenameChannelModal](state) {
+  [actions.hideChannelActionsModal](state) {
+    const { channelActions } = state;
+
     return {
       ...state,
-      renameChannelModalIsVisible: true,
+      channelActions: {
+        ...channelActions,
+        isVisible: false,
+        closeModalHandler: null,
+      },
     };
   },
-  [actions.hideDeleteChannelModal](state) {
-    return {
-      ...state,
-      deleteChannelModalIsVisible: false,
-    };
-  },
-  [actions.hideRenameChannelModal](state) {
-    return {
-      ...state,
-      renameChannelModalIsVisible: false,
-    };
-  },
-}, false);
+}, {});
 
 export default combineReducers({
   channels,

@@ -3,10 +3,8 @@ import axios from 'axios';
 import routes from '../utils/routes';
 
 // modals
-export const showDeleteChannelModal = createAction('MODALS_DELETE_SHOW');
-export const hideDeleteChannelModal = createAction('MODALS_DELETE_HIDE');
-export const showRenameChannelModal = createAction('MODALS_RENAME_SHOW');
-export const hideRenameChannelModal = createAction('MODALS_RENAME_HIDE');
+export const showChannelActionsModal = createAction('MODALS_SHOW');
+export const hideChannelActionsModal = createAction('MODALS_HIDE');
 
 // channels
 export const switchChannel = createAction('CHANNELS_SWITCH');
@@ -37,7 +35,6 @@ export const deleteChannel = ({ id }) => async (dispatch) => {
   } catch (error) {
     throw new Error(error);
   }
-
 };
 
 export const renameChannel = channel => async (dispatch) => {

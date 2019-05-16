@@ -10,9 +10,46 @@ const mapStateToProps = state => ({
 @connect(mapStateToProps)
 
 export default class ChannelHeader extends React.Component {
-  showDeleteModal = () => this.props.showDeleteChannelModal();
+  showDeleteModal = () => {
+    const {
+      channel, showChannelActionsModal, hideChannelActionsModal, deleteChannel,
+    } = this.props;
 
-  showRenameModal = () => this.props.showRenameChannelModal();
+    showChannelActionsModal({
+      isVisible: true,
+      closeModalHandler: hideChannelActionsModal,
+      actionData: {
+        type: 'delete',
+        title: `Delete channel: #${channel.name}`,
+        btnTheme: 'danger',
+        actionHandler: async () => {
+          await deleteChannel({ id: channel.id });
+          hideChannelActionsModal();
+        },
+      },
+    });
+  }
+
+  showRenameModal = () => {
+    const {
+      channel, showChannelActionsModal, hideChannelActionsModal, renameChannel,
+    } = this.props;
+
+    showChannelActionsModal({
+      isVisible: true,
+      closeModalHandler: hideChannelActionsModal,
+      actionData: {
+        type: 'rename',
+        title: `Rename channel: #${channel.name}`,
+        btnTheme: 'primary',
+        actionHandler: async ({ name }) => { // eslint-disable-line consistent-return
+          if (!name || name.trim().length === 0) return null;
+          await renameChannel({ ...channel, name });
+          hideChannelActionsModal();
+        },
+      },
+    });
+  }
 
   render() {
     const { channel } = this.props;

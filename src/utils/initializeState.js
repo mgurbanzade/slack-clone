@@ -16,8 +16,11 @@ const initializeState = (state) => {
     },
     currentChannelId,
     modals: {
-      deleteChannelModalIsVisible: false,
-      renameChannelModalIsVisible: false,
+      channelActions: {
+        isVisible: false,
+        closeModalHandler: null,
+        actionData: null,
+      },
     },
   };
 };
