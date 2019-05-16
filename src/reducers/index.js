@@ -28,7 +28,7 @@ const channels = handleActions({
       allIds: allIds.filter(cid => cid !== id),
     };
   },
-  [actions.renameChannelAtStore](state, { payload: channel }) {
+  [actions.renameChannelSuccess](state, { payload: channel }) {
     const { id, name } = channel;
     const { byId, allIds } = state;
     const updatedChannel = { ...byId[id], name };
@@ -49,6 +49,15 @@ const channelDeletingState = handleActions({
     return 'failed';
   },
   [actions.deleteChannelSuccess]() {
+    return 'finished';
+  },
+}, 'none');
+
+const channelRenamingState = handleActions({
+  [actions.renameChannelFailure]() {
+    return 'failed';
+  },
+  [actions.renameChannelSuccess]() {
     return 'finished';
   },
 }, 'none');
@@ -121,6 +130,7 @@ const modals = handleActions({
 export default combineReducers({
   channels,
   channelDeletingState,
+  channelRenamingState,
   channelsUI,
   messages,
   currentChannelId,

@@ -27,7 +27,7 @@ export default (store) => {
   });
 
   socket.on('renameChannel', (res) => {
-    store.dispatch(actions.renameChannelAtStore({
+    store.dispatch(actions.renameChannelSuccess({
       ...res.data.attributes,
     }));
   });

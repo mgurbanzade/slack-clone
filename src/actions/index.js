@@ -12,7 +12,9 @@ export const receiveNewChannel = createAction('CHANNELS_RECEIVE');
 export const deleteChannelRequest = createAction('CHANNELS_DELETE_REQUEST');
 export const deleteChannelSuccess = createAction('CHANNELS_DELETE_SUCCESS');
 export const deleteChannelFailure = createAction('CHANNELS_DELETE_FAILURE');
-export const renameChannelAtStore = createAction('CHANNELS_RENAME');
+export const renameChannelSuccess = createAction('CHANNELS_RENAME_SUCCESS');
+export const renameChannelFailure = createAction('CHANNELS_RENAME_FAILURE');
+
 export const createChannel = ({ name }) => async (dispatch) => {
   const url = routes.postChannelURL;
   const attributes = { name };
@@ -43,17 +45,16 @@ export const deleteChannel = ({ id }) => async (dispatch) => {
 
 export const renameChannel = channel => async (dispatch) => {
   const url = routes.renameChannelURL(channel.id);
-
   try {
     await axios.patch(url, {
       data: {
         attributes: channel,
       },
     });
-
-    dispatch(renameChannelAtStore(channel));
+    dispatch(renameChannelSuccess(channel));
   } catch (error) {
-    throw new Error(error);
+    dispatch(renameChannelFailure());
+    throw error;
   }
 };
 
@@ -75,6 +76,6 @@ export const sendMessage = message => async (dispatch) => {
 
     dispatch(receiveNewMessage({ message: response.data }));
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
