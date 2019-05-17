@@ -43,7 +43,7 @@ export default class ChannelForm extends React.Component {
     const failure = (
       <div className="text-danger pl-3">
         <IoIosAlert />
-        <span className="text-danger pl-1">Try again!</span>
+        <span className="text-danger pl-1">Request failed. Try again later!</span>
       </div>
     );
 

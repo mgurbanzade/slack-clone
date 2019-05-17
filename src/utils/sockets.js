@@ -5,7 +5,7 @@ export default (store) => {
   const socket = io.connect('/');
 
   socket.on('newMessage', (message) => {
-    store.dispatch(actions.receiveNewMessage({
+    store.dispatch(actions.sendMessageSuccess({
       message,
     }));
 

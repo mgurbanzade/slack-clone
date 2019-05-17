@@ -65,7 +65,8 @@ export const newMessageAlert = createAction('CHANNELS_UI_NEW_MESSAGE_ALERT');
 export const markMessageAsRead = createAction('CHANNELS_UI_MARK_MESSAGE_AS_READ');
 
 // messages
-export const receiveNewMessage = createAction('MESSAGES_RECEIVE');
+export const sendMessageSuccess = createAction('MESSAGES_SEND_SUCCESS');
+export const sendMessageFailure = createAction('MESSAGES_SEND_FAILURE');
 export const sendMessage = message => async (dispatch) => {
   const url = routes.postMessageURL(message.channelId);
   const attributes = { text: message.text, author: message.author, sentAt: message.sentAt };
@@ -76,8 +77,9 @@ export const sendMessage = message => async (dispatch) => {
       },
     });
 
-    dispatch(receiveNewMessage({ message: response.data }));
+    dispatch(sendMessageSuccess({ message: response.data }));
   } catch (error) {
+    dispatch(sendMessageFailure());
     throw error;
   }
 };

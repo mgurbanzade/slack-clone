@@ -2,10 +2,12 @@ import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { HotKeys } from 'react-hotkeys';
 import { format } from 'date-fns';
+import { Alert } from 'react-bootstrap';
 import connect from '../../decorators/connect';
 import CurrentUserContext from '../../utils/context';
 
 const mapStateToProps = state => ({
+  messageSendingState: state.messageSendingState,
   currentChannelId: state.currentChannelId,
 });
 
@@ -32,12 +34,13 @@ export default class MessageForm extends React.Component {
   }
 
   render() {
+    const { messageSendingState, handleSubmit, submitting } = this.props;
     const keyMap = {
       TRIGGER_SUBMIT: 'enter',
     };
 
     const handlers = {
-      TRIGGER_SUBMIT: this.props.handleSubmit(this.handleSubmit),
+      TRIGGER_SUBMIT: handleSubmit(this.handleSubmit),
     };
 
     const loading = (
@@ -62,8 +65,15 @@ export default class MessageForm extends React.Component {
       </form>
     );
 
+    const failure = (
+      <Alert variant={'danger'}>
+        Something went wrong. Please
+        <a href="#" className="text-primary" onClick={() => window.location.reload()}> try again!</a>
+      </Alert>
+    );
+
     return (
-      this.props.submitting ? loading : form
+      submitting ? loading : messageSendingState === 'failed' ? failure : form
     );
   }
 }

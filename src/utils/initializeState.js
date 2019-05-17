@@ -16,6 +16,7 @@ const initializeState = (state) => {
       byId: _.keyBy(messages, 'id'),
       allIds: messages.map(message => message.id),
     },
+    messageSendingState: 'none',
     currentChannelId,
     modals: {
       channelActions: {

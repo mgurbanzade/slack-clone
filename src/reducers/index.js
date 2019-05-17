@@ -94,7 +94,7 @@ const channelsUI = handleActions({
 }, []);
 
 const messages = handleActions({
-  [actions.receiveNewMessage](state, { payload: { message } }) {
+  [actions.sendMessageSuccess](state, { payload: { message } }) {
     const { id, attributes } = message.data;
     return {
       byId: { ...state.byId, [id]: attributes },
@@ -111,6 +111,15 @@ const messages = handleActions({
     };
   },
 }, []);
+
+const messageSendingState = handleActions({
+  [actions.sendMessageFailure]() {
+    return 'failed';
+  },
+  [actions.sendMessageSuccess]() {
+    return 'finished';
+  },
+}, 'none');
 
 const modals = handleActions({
   [actions.showChannelActionsModal](state, { payload }) {
@@ -140,6 +149,7 @@ export default combineReducers({
   channelRenamingState,
   channelsUI,
   messages,
+  messageSendingState,
   currentChannelId,
   modals,
   form: formReducer,
