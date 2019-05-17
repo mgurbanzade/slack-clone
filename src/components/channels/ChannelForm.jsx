@@ -12,12 +12,13 @@ const mapStateToProps = state => ({
 @reduxForm({ form: 'channelForm' })
 
 export default class ChannelForm extends React.Component {
-  handleSubmit = async ({ name }) => { // eslint-disable-line consistent-return
+  handleSubmit = async ({ name }) => {
     if (!name || name.trim().length === 0) return null;
     const { createChannel, reset, hideForm } = this.props;
     await createChannel({ name });
     reset();
     hideForm();
+    return null;
   }
 
   render() {

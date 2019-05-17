@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
 export default class MessageForm extends React.Component {
   static contextType = CurrentUserContext;
 
-  handleSubmit = async ({ message }) => { // eslint-disable-line consistent-return
+  handleSubmit = async ({ message }) => {
     if (!message || message.trim().length === 0) return null;
     const {
       sendMessage, reset, currentChannelId,
@@ -31,6 +31,7 @@ export default class MessageForm extends React.Component {
     });
 
     reset();
+    return null;
   }
 
   render() {

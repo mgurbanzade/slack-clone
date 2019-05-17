@@ -42,10 +42,11 @@ export default class ChannelHeader extends React.Component {
         type: 'rename',
         title: `Rename channel: #${channel.name}`,
         btnTheme: 'primary',
-        actionHandler: async ({ name }) => { // eslint-disable-line consistent-return
+        actionHandler: async ({ name }) => {
           if (!name || name.trim().length === 0) return null;
           await renameChannel({ ...channel, name });
           hideChannelActionsModal();
+          return null;
         },
       },
     });
