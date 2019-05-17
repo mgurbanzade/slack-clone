@@ -17,18 +17,17 @@ export default class Messages extends React.Component {
     this.scrollToBottom();
   }
 
-  scrollToBottom = () => { // eslint-disable-line consistent-return
+  scrollToBottom = () => {
     if (!this.focusArea.current) return null;
     this.focusArea.current.scrollIntoView({ behavior: 'smooth' });
+    return null;
   }
 
-  renderEmptyChannel() { // eslint-disable-line class-methods-use-this
-    return (
-      <div className="jumbotron d-flex justify-content-center flex-grow-1">
-        <h2 className="heading align-self-center text-muted">No messages to show</h2>
-      </div>
-    );
-  }
+  renderEmptyChannel = () => (
+    <div className="jumbotron d-flex justify-content-center flex-grow-1">
+      <h2 className="heading align-self-center text-muted">No messages to show</h2>
+    </div>
+  );
 
   render() {
     const { messages } = this.props;

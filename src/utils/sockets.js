@@ -5,7 +5,7 @@ export default (store) => {
   const socket = io.connect('/');
 
   socket.on('newMessage', (message) => {
-    store.dispatch(actions.receiveNewMessage({
+    store.dispatch(actions.sendMessageSuccess({
       message,
     }));
 
@@ -15,19 +15,19 @@ export default (store) => {
   });
 
   socket.on('newChannel', (channel) => {
-    store.dispatch(actions.receiveNewChannel({
+    store.dispatch(actions.createChannelSuccess({
       channel,
     }));
   });
 
   socket.on('removeChannel', (res) => {
-    store.dispatch(actions.deleteChannelFromStore({
+    store.dispatch(actions.deleteChannelSuccess({
       id: res.data.id,
     }));
   });
 
   socket.on('renameChannel', (res) => {
-    store.dispatch(actions.renameChannelAtStore({
+    store.dispatch(actions.renameChannelSuccess({
       ...res.data.attributes,
     }));
   });

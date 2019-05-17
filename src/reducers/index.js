@@ -8,27 +8,27 @@ const currentChannelId = handleActions({
   [actions.switchChannel](state, { payload: id }) {
     return id;
   },
-  [actions.deleteChannelFromStore]() {
+  [actions.deleteChannelSuccess]() {
     return 1;
   },
 }, 1);
 
 const channels = handleActions({
-  [actions.receiveNewChannel](state, { payload: { channel } }) {
+  [actions.createChannelSuccess](state, { payload: { channel } }) {
     const { id, attributes } = channel.data;
     return {
       byId: { ...state.byId, [id]: attributes },
       allIds: [...state.allIds, id],
     };
   },
-  [actions.deleteChannelFromStore](state, { payload: { id } }) {
+  [actions.deleteChannelSuccess](state, { payload: { id } }) {
     const { byId, allIds } = state;
     return {
       byId: _.omit(byId, [id]),
       allIds: allIds.filter(cid => cid !== id),
     };
   },
-  [actions.renameChannelAtStore](state, { payload: channel }) {
+  [actions.renameChannelSuccess](state, { payload: channel }) {
     const { id, name } = channel;
     const { byId, allIds } = state;
     const updatedChannel = { ...byId[id], name };
@@ -40,6 +40,33 @@ const channels = handleActions({
     };
   },
 }, []);
+
+const channelCreatingState = handleActions({
+  [actions.createChannelFailure]() {
+    return 'failed';
+  },
+  [actions.createChannelSuccess]() {
+    return 'finished';
+  },
+}, 'none');
+
+const channelDeletingState = handleActions({
+  [actions.deleteChannelFailure]() {
+    return 'failed';
+  },
+  [actions.deleteChannelSuccess]() {
+    return 'finished';
+  },
+}, 'none');
+
+const channelRenamingState = handleActions({
+  [actions.renameChannelFailure]() {
+    return 'failed';
+  },
+  [actions.renameChannelSuccess]() {
+    return 'finished';
+  },
+}, 'none');
 
 const channelsUI = handleActions({
   [actions.newMessageAlert](state, { payload: { id } }) {
@@ -67,14 +94,14 @@ const channelsUI = handleActions({
 }, []);
 
 const messages = handleActions({
-  [actions.receiveNewMessage](state, { payload: { message } }) {
+  [actions.sendMessageSuccess](state, { payload: { message } }) {
     const { id, attributes } = message.data;
     return {
       byId: { ...state.byId, [id]: attributes },
       allIds: [...state.allIds, id],
     };
   },
-  [actions.deleteChannelFromStore](state, { payload: { id } }) {
+  [actions.deleteChannelSuccess](state, { payload: { id } }) {
     const { byId } = state;
     const updatedById = _.omitBy(byId, m => m.channelId === id);
 
@@ -84,6 +111,15 @@ const messages = handleActions({
     };
   },
 }, []);
+
+const messageSendingState = handleActions({
+  [actions.sendMessageFailure]() {
+    return 'failed';
+  },
+  [actions.sendMessageSuccess]() {
+    return 'finished';
+  },
+}, 'none');
 
 const modals = handleActions({
   [actions.showChannelActionsModal](state, { payload }) {
@@ -108,8 +144,12 @@ const modals = handleActions({
 
 export default combineReducers({
   channels,
+  channelCreatingState,
+  channelDeletingState,
+  channelRenamingState,
   channelsUI,
   messages,
+  messageSendingState,
   currentChannelId,
   modals,
   form: formReducer,
