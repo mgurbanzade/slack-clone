@@ -13,12 +13,11 @@ const mapStateToProps = state => ({
 
 export default class ChannelForm extends React.Component {
   handleSubmit = async ({ name }) => {
-    if (!name || name.trim().length === 0) return null;
+    if (!name || name.trim().length === 0) return;
     const { createChannel, reset, hideForm } = this.props;
     await createChannel({ name });
     reset();
     hideForm();
-    return null;
   }
 
   render() {

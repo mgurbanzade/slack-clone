@@ -18,9 +18,8 @@ export default class Messages extends React.Component {
   }
 
   scrollToBottom = () => {
-    if (!this.focusArea.current) return null;
+    if (!this.focusArea.current) return;
     this.focusArea.current.scrollIntoView({ behavior: 'smooth' });
-    return null;
   }
 
   renderEmptyChannel = () => (

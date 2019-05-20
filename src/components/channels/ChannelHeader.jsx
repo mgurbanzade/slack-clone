@@ -43,10 +43,9 @@ export default class ChannelHeader extends React.Component {
         title: `Rename channel: #${channel.name}`,
         btnTheme: 'primary',
         actionHandler: async ({ name }) => {
-          if (!name || name.trim().length === 0) return null;
+          if (!name || name.trim().length === 0) return;
           await renameChannel({ ...channel, name });
           hideChannelActionsModal();
-          return null;
         },
       },
     });

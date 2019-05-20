@@ -18,7 +18,7 @@ export default class MessageForm extends React.Component {
   static contextType = CurrentUserContext;
 
   handleSubmit = async ({ message }) => {
-    if (!message || message.trim().length === 0) return null;
+    if (!message || message.trim().length === 0) return;
     const {
       sendMessage, reset, currentChannelId,
     } = this.props;
@@ -31,7 +31,6 @@ export default class MessageForm extends React.Component {
     });
 
     reset();
-    return null;
   }
 
   render() {

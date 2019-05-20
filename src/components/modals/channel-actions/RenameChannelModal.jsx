@@ -23,17 +23,23 @@ export default class RenameChannelModal extends React.Component {
       TRIGGER_SUBMIT: this.props.handleSubmit(renameHandler),
     };
 
-    return (
-      channelRenamingState === 'failed'
-        ? <Alert variant={'danger'}>
+    const alert = (
+      <Alert variant={'danger'}>
         Something went wrong. Please
           <a href="#" className="text-primary" onClick={() => window.location.reload()}> try again!</a>
       </Alert>
-        : <form>
+    );
+
+    const form = (
+      <form>
         <HotKeys handlers={handlers} keyMap={keyMap}>
-          <Field className="form-control" disabled={submitting} placeholder="Enter name" name="name" type="text" component="input" required autoFocus/>
+          <Field className="form-control" disabled={submitting} placeholder="Enter name" name="name" type="text" component="input" required autoFocus />
         </HotKeys>
       </form>
+    );
+
+    return (
+      channelRenamingState === 'failed' ? alert : form
     );
   }
 }
